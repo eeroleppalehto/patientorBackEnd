@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from 'cors';
-import { Patient, Gender } from './types';
+//import { Patient, Gender } from './types';
 import diagnoseService from './services/diagnoseService';
+import patientService from './services/patientService';
 
 const app = express();
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
@@ -10,7 +11,7 @@ app.use(express.json());
 
 const PORT = 3001;
 
-const patientList:Patient[] = [
+/* const patientList:Patient[] = [
   {
     id: '1',
     name: 'Esko',
@@ -23,19 +24,19 @@ const patientList:Patient[] = [
     occupation: 'undertaker',
     gender: Gender.Other
   }
-];
+]; */
 
 app.get('/api/ping', (_req,res) => {
+  console.log('hello');
   res.send('pong pat');
 });
 
 app.get('/api/patients', (_req, res) => {
-  res.json(patientList);
+  res.json(patientService.getAllPatients());
 });
 
-app.get('api/diagnoses', (_req, res) => {
-  console.log('hello');
-  res.send(diagnoseService.getAllDiagnoses());
+app.get('/api/diagnoses', (_req, res) => {
+  res.json(diagnoseService.getAllDiagnoses());
 });
 
 app.listen(PORT, () => {
