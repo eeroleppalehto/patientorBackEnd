@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-//import { Patient, Gender } from './types';
 import diagnoseService from './services/diagnoseService';
 import patientService from './services/patientService';
 import toNewPatientEntry from './utils/parsing';
