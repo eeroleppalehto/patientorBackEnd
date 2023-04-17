@@ -19,6 +19,20 @@ app.get('/api/patients', (_req, res) => {
   res.json(patientService.getAllNonSensitivePatients());
 });
 
+app.get('/api/patients/:id', (req, res) => {
+  try {
+    res.json(patientService.getPatientById(req.params.id));
+  } catch (error: unknown) {
+    let errorMessage = 'Something went wrong ';
+
+    if ( error instanceof Error) {
+      errorMessage += error.message;
+    }
+    console.log(errorMessage);
+    res.status(400).send(errorMessage);
+  }
+});
+
 app.get('/api/diagnoses', (_req, res) => {
   res.json(diagnoseService.getAllDiagnoses());
 });
