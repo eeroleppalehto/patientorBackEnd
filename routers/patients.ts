@@ -1,6 +1,7 @@
 import express from 'express';
 import patientService from '../services/patientService';
 import toNewPatientEntry from '../utils/toNewPatientEntry';
+import toEntryWithoutId from '../utils/toEntryWithoutId';
 
 const patientsRouter = express.Router();
 
@@ -39,9 +40,25 @@ patientsRouter.post('/', (req, res) => {
   }
 });
 
-//TODO: Finish this method
-/* patientsRouter.post('/:id/entries', (req, res) => {
-  const newPatientEntry = 
+patientsRouter.post('/:id/entries', (req, res) => {
+  try {
+    console.log(req.body);
+    const newPatientEntryWithOutID = toEntryWithoutId(req.body);
+    //console.log(newPatientEntryWithOutID);
+    const patientId = req.params.id;
+    const newPatientEntry = patientService.addPatientEntry(newPatientEntryWithOutID, patientId);
+
+    console.log('New Patient Entry added');
+    //console.log(newPatientEntry);
+    res.json(newPatientEntry);  
+  } catch (error: unknown) {
+    let errorMessage = 'Something went wrong ';
+    if ( error instanceof Error ) {
+      errorMessage += error.message;
+    }
+    console.log(errorMessage);
+    res.status(400).send(errorMessage);
+  }
 });
- */
+
 export default patientsRouter;
